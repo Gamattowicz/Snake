@@ -39,6 +39,8 @@ class Snake(object):
         self.color = color
         self.loc_x = 10
         self.loc_y = 10
+        self.move_x = 1
+        self.move_y = 0
 
     def place_snake(self, board):
         board.squares[self.loc_y][self.loc_x] = self.color
@@ -47,13 +49,17 @@ class Snake(object):
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LEFT:
-                    self.loc_x -= 1
+                    self.move_x = -1
+                    self.move_y = 0
                 elif event.key == pygame.K_RIGHT:
-                    self.loc_x += 1
+                    self.move_x = 1
+                    self.move_y = 0
                 elif event.key == pygame.K_UP:
-                    self.loc_y -= 1
+                    self.move_y = -1
+                    self.move_x = 0
                 elif event.key == pygame.K_DOWN:
-                    self.loc_y += 1
+                    self.move_y = 1
+                    self.move_x = 0
 
     def valid_space(self):
         pass
@@ -86,19 +92,27 @@ def main():
     time = 0
     run = True
     while run:
-        snake.move()
+        pygame.time.delay(30)
         board.create_squares(WIN)
         board.draw_grid(WIN)
         time += clock.get_rawtime()
-        clock.tick()
+        clock.tick(15)
         snake.place_snake(board)
 
-        if time / 1000 > 1:
-            print(time)
-            time = 0
-            snake.loc_x += 1
-            snake.move()
-            print(snake.loc_x)
+        print(time)
+        time = 0
+        snake.loc_x += snake.move_x
+        snake.loc_y += snake.move_y
+        if snake.loc_x == 20:
+            snake.loc_x = 0
+        elif snake.loc_x < 0:
+            snake.loc_x = 19
+        elif snake.loc_y == 20:
+            snake.loc_y = 0
+        elif snake.loc_y < 0:
+            snake.loc_y = 19
+        print(snake.loc_x, snake.loc_y)
+        snake.move()
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
