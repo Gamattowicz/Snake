@@ -37,6 +37,10 @@ class Board(object):
 class Snake(object):
     def __init__(self, color):
         self.color = color
+        self.start_loc = (10, 10)
+
+    def place_snake(self, board):
+        board.squares[self.start_loc[0]][self.start_loc[1]] = self.color
 
 
 class Apple(object):
@@ -62,6 +66,8 @@ def main():
     board.create_squares(WIN)
     apple = Apple((255, 0, 0))
     apple.place_apple(board, apple.generate_location(board))
+    snake = Snake((0, 255, 0))
+    snake.place_snake(board)
     pygame.display.update()
     run = True
     while run:
