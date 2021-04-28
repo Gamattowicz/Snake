@@ -37,10 +37,26 @@ class Board(object):
 class Snake(object):
     def __init__(self, color):
         self.color = color
-        self.start_loc = (10, 10)
+        self.loc_x = 10
+        self.loc_y = 10
 
     def place_snake(self, board):
-        board.squares[self.start_loc[0]][self.start_loc[1]] = self.color
+        board.squares[self.loc_y][self.loc_x] = self.color
+
+    def move(self):
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_LEFT:
+                    self.loc_x -= 1
+                elif event.key == pygame.K_RIGHT:
+                    self.loc_x += 1
+                elif event.key == pygame.K_UP:
+                    self.loc_y -= 1
+                elif event.key == pygame.K_DOWN:
+                    self.loc_y += 1
+
+    def valid_space(self):
+        pass
 
 
 class Apple(object):
@@ -62,22 +78,32 @@ class Apple(object):
 
 def main():
     board = Board(20, 20, 30)
-    board.draw_grid(WIN)
-    board.create_squares(WIN)
     apple = Apple((255, 0, 0))
     apple.place_apple(board, apple.generate_location(board))
     snake = Snake((0, 255, 0))
     snake.place_snake(board)
-    pygame.display.update()
+    clock = pygame.time.Clock()
+    time = 0
     run = True
     while run:
-        WIN.fill((0, 0, 0))
+        snake.move()
         board.create_squares(WIN)
         board.draw_grid(WIN)
-        pygame.display.update()
+        time += clock.get_rawtime()
+        clock.tick()
+        snake.place_snake(board)
+
+        if time / 1000 > 1:
+            print(time)
+            time = 0
+            snake.loc_x += 1
+            snake.move()
+            print(snake.loc_x)
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
+        pygame.display.update()
     pygame.quit()
     sys.exit()
 
