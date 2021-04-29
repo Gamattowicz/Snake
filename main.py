@@ -58,18 +58,22 @@ class Snake(object):
     def move(self):
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_LEFT:
-                    self.move_x = -1
-                    self.move_y = 0
-                elif event.key == pygame.K_RIGHT:
-                    self.move_x = 1
-                    self.move_y = 0
-                elif event.key == pygame.K_UP:
-                    self.move_y = -1
-                    self.move_x = 0
-                elif event.key == pygame.K_DOWN:
-                    self.move_y = 1
-                    self.move_x = 0
+                if self.move_x != 1:
+                    if event.key == pygame.K_LEFT:
+                        self.move_x = -1
+                        self.move_y = 0
+                if self.move_x != -1:
+                    if event.key == pygame.K_RIGHT:
+                        self.move_x = 1
+                        self.move_y = 0
+                if self.move_y != 1:
+                    if event.key == pygame.K_UP:
+                        self.move_y = -1
+                        self.move_x = 0
+                if self.move_y != -1:
+                    if event.key == pygame.K_DOWN:
+                        self.move_y = 1
+                        self.move_x = 0
 
     def collision_check(self, surface, board):
         run = False
