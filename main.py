@@ -28,10 +28,10 @@ class Board(object):
     def draw_grid(self, surface):
         for line in range(self.rows):
             pygame.draw.line(surface, (125, 125, 125), (0, line * self.square_size), (self.rows * self.square_size,
-                                                                                        line * self.square_size), 3)
+                                                                                      line * self.square_size), 3)
         for line in range(self.columns):
             pygame.draw.line(surface, (125, 125, 125), (line * self.square_size, 0), (line * self.square_size,
-                                                                                          self.columns * self.square_size), 3)
+                                                                                      self.columns * self.square_size), 3)
 
 
 class Snake(object):
@@ -41,8 +41,13 @@ class Snake(object):
         self.loc_y = 10
         self.move_x = 1
         self.move_y = 0
+        self.body = 1
 
-    def place_snake(self, board):
+    def place_snake(self, board, apple):
+        if board.squares[self.loc_y][self.loc_x] == apple.color:
+            self.body += 1
+            print(self.body)
+            apple.place_apple(board, apple.generate_location(board))
         board.squares[self.loc_y][self.loc_x] = self.color
 
     def move(self):
@@ -79,7 +84,7 @@ class Apple(object):
 
     def place_apple(self, board, location):
         board.squares[location[0]][location[1]] = self.color
-        print(board.squares)
+        # print(board.squares)
 
 
 def main():
@@ -87,19 +92,18 @@ def main():
     apple = Apple((255, 0, 0))
     apple.place_apple(board, apple.generate_location(board))
     snake = Snake((0, 255, 0))
-    snake.place_snake(board)
+    snake.place_snake(board, apple)
     clock = pygame.time.Clock()
     time = 0
     run = True
     while run:
-        pygame.time.delay(30)
+        pygame.time.delay(5)
         board.create_squares(WIN)
         board.draw_grid(WIN)
         time += clock.get_rawtime()
         clock.tick(15)
-        snake.place_snake(board)
+        snake.place_snake(board, apple)
 
-        print(time)
         time = 0
         snake.loc_x += snake.move_x
         snake.loc_y += snake.move_y
@@ -111,7 +115,7 @@ def main():
             snake.loc_y = 0
         elif snake.loc_y < 0:
             snake.loc_y = 19
-        print(snake.loc_x, snake.loc_y)
+        # print(snake.loc_x, snake.loc_y)
         snake.move()
 
         for event in pygame.event.get():
