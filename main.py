@@ -41,14 +41,19 @@ class Snake(object):
         self.loc_y = 10
         self.move_x = 1
         self.move_y = 0
-        self.body = 1
+        self.len_body = 1
+        self.body = []
 
-    def place_snake(self, board, apple):
+    def place_snake(self, surface, board, apple, collision_check):
         if board.squares[self.loc_y][self.loc_x] == apple.color:
-            self.body += 1
-            print(self.body)
+            self.len_body += 1
             apple.place_apple(board, apple.generate_location(board))
+        collision_check(surface, board)
         board.squares[self.loc_y][self.loc_x] = self.color
+        self.body.append((self.loc_y, self.loc_x))
+        if len(self.body) > self.len_body:
+            board.squares[self.body[0][0]][self.body[0][1]] = (0, 0, 0)
+            del self.body[0]
 
     def move(self):
         for event in pygame.event.get():
@@ -66,8 +71,19 @@ class Snake(object):
                     self.move_y = 1
                     self.move_x = 0
 
-    def valid_space(self):
-        pass
+    def collision_check(self, surface, board):
+        run = False
+        if board.squares[self.loc_y][self.loc_x] == self.color:
+            run = True
+        while run:
+            WIN.fill((0, 0, 0))
+            lost_text = pygame.font.SysFont('arial', 95).render('YOU LOST!', True, (255, 255, 255))
+            surface.blit(lost_text, (100, 100))
+            pygame.display.update()
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
 
 
 class Apple(object):
@@ -92,7 +108,6 @@ def main():
     apple = Apple((255, 0, 0))
     apple.place_apple(board, apple.generate_location(board))
     snake = Snake((0, 255, 0))
-    snake.place_snake(board, apple)
     clock = pygame.time.Clock()
     time = 0
     run = True
@@ -102,7 +117,7 @@ def main():
         board.draw_grid(WIN)
         time += clock.get_rawtime()
         clock.tick(15)
-        snake.place_snake(board, apple)
+        snake.place_snake(WIN, board, apple, snake.collision_check)
 
         time = 0
         snake.loc_x += snake.move_x
