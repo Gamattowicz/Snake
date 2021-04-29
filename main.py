@@ -3,7 +3,7 @@ import sys
 import random
 
 # SIZE OF SCREEN =
-WIDTH, HEIGHT = 750, 750
+WIDTH, HEIGHT = 1000, 750
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption('SNAKE')
 pygame.init()
@@ -17,12 +17,19 @@ class Board():
         self.squares = [[(0, 0, 0) for column in range(self.columns)] for row in range(self.rows)]
         self.start_x = (width - (columns * square_size)) // 2
         self.start_y = (height - (rows * square_size)) // 2
-        print(self.start_y, self.start_x)
+        self.screen_width = width
+        self.screen_height = height
 
-    def draw_title(self, text, surface, width):
+    def draw_title(self, text, surface):
         title_font = pygame.font.SysFont('arial', 60)
         title_text = title_font.render(text, True, (255, 255, 255))
-        surface.blit(title_text, (width // 2 - title_text.get_width()/2, self.start_y // 2 - title_text.get_height()/2))
+        surface.blit(title_text, (self.screen_width // 2 - title_text.get_width()/2, self.start_y // 2 - title_text.get_height()/2))
+
+    def draw_score(self, surface):
+        score_font = pygame.font.SysFont('arial', 40)
+        score_text = score_font.render('Score: 0', True, (255, 255, 255))
+        surface.blit(score_text,
+                     (self.start_x // 2 - score_text.get_width() / 2, self.screen_height // 4 - score_text.get_height() / 2))
 
     def create_squares(self, surface):
         for i in range(len(self.squares)):
@@ -119,7 +126,8 @@ class Apple():
 
 def main():
     board = Board(20, 20, 30, WIDTH, HEIGHT)
-    board.draw_title('SNAKE', WIN, WIDTH)
+    board.draw_title('SNAKE', WIN)
+    board.draw_score(WIN)
     apple = Apple((255, 0, 0))
     apple.place_apple(board, apple.generate_location(board))
     snake = Snake((0, 255, 0))
@@ -144,7 +152,6 @@ def main():
             snake.loc_y = 0
         elif snake.loc_y < 0:
             snake.loc_y = 19
-        # print(snake.loc_x, snake.loc_y)
         snake.move()
 
         for event in pygame.event.get():
