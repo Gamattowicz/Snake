@@ -3,38 +3,44 @@ import sys
 import random
 
 # SIZE OF SCREEN =
-WIDTH, HEIGHT = 600, 600
+WIDTH, HEIGHT = 750, 750
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption('SNAKE')
 pygame.init()
 
 
-class Board(object):
-    def __init__(self, columns, rows, square_size):
+class Board():
+    def __init__(self, columns, rows, square_size, width, height):
         self.columns = columns
         self.rows = rows
         self.square_size = square_size
-        self.squares = [[(0, 0, 0) for row in range(self.columns)] for columns in range(self.rows)]
+        self.squares = [[(0, 0, 0) for column in range(self.columns)] for row in range(self.rows)]
+        self.start_x = (width - (columns * square_size)) // 2
+        self.start_y = (height - (rows * square_size)) // 2
+        print(self.start_y, self.start_x)
 
     def create_squares(self, surface):
         for i in range(len(self.squares)):
             for j in range(len(self.squares[i])):
-                pygame.draw.rect(surface, self.squares[i][j], (j * self.square_size, i * self.square_size,
+                pygame.draw.rect(surface, self.squares[i][j], (self.start_x + j * self.square_size,
+                                                               self.start_y + i * self.square_size,
                                                                self.square_size, self.square_size), 0)
 
     def update_board(self):
         pass
 
     def draw_grid(self, surface):
-        for line in range(self.rows):
-            pygame.draw.line(surface, (125, 125, 125), (0, line * self.square_size), (self.rows * self.square_size,
-                                                                                      line * self.square_size), 3)
-        for line in range(self.columns):
-            pygame.draw.line(surface, (125, 125, 125), (line * self.square_size, 0), (line * self.square_size,
-                                                                                      self.columns * self.square_size), 3)
+        for line in range(self.rows + 1):
+            pygame.draw.line(surface, (125, 125, 125), (self.start_x, self.start_y + line * self.square_size),
+                                                       (self.start_x + self.rows * self.square_size,
+                                                        self.start_y + line * self.square_size), 3)
+        for line in range(self.columns + 1):
+            pygame.draw.line(surface, (125, 125, 125), (self.start_x + line * self.square_size, self.start_y),
+                                                       (self.start_x + line * self.square_size,
+                                                        self.start_y + self.columns * self.square_size), 3)
 
 
-class Snake(object):
+class Snake():
     def __init__(self, color):
         self.color = color
         self.loc_x = 10
@@ -90,7 +96,7 @@ class Snake(object):
                     sys.exit()
 
 
-class Apple(object):
+class Apple():
     def __init__(self, color):
         self.color = color
 
@@ -104,11 +110,10 @@ class Apple(object):
 
     def place_apple(self, board, location):
         board.squares[location[0]][location[1]] = self.color
-        # print(board.squares)
 
 
 def main():
-    board = Board(20, 20, 30)
+    board = Board(20, 20, 30, WIDTH, HEIGHT)
     apple = Apple((255, 0, 0))
     apple.place_apple(board, apple.generate_location(board))
     snake = Snake((0, 255, 0))
@@ -116,11 +121,10 @@ def main():
     time = 0
     run = True
     while run:
-        pygame.time.delay(5)
         board.create_squares(WIN)
         board.draw_grid(WIN)
         time += clock.get_rawtime()
-        clock.tick(15)
+        clock.tick(10)
         snake.place_snake(WIN, board, apple, snake.collision_check)
 
         time = 0
