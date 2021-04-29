@@ -19,6 +19,11 @@ class Board():
         self.start_y = (height - (rows * square_size)) // 2
         print(self.start_y, self.start_x)
 
+    def draw_title(self, text, surface, width):
+        title_font = pygame.font.SysFont('arial', 60)
+        title_text = title_font.render(text, True, (255, 255, 255))
+        surface.blit(title_text, (width // 2 - title_text.get_width()/2, self.start_y // 2 - title_text.get_height()/2))
+
     def create_squares(self, surface):
         for i in range(len(self.squares)):
             for j in range(len(self.squares[i])):
@@ -114,6 +119,7 @@ class Apple():
 
 def main():
     board = Board(20, 20, 30, WIDTH, HEIGHT)
+    board.draw_title('SNAKE', WIN, WIDTH)
     apple = Apple((255, 0, 0))
     apple.place_apple(board, apple.generate_location(board))
     snake = Snake((0, 255, 0))
