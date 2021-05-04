@@ -25,7 +25,7 @@ class Board:
         title_text = title_font.render(text, True, (255, 255, 255))
         surface.blit(title_text, (self.screen_width // 2 - title_text.get_width()/2, self.start_y // 2 - title_text.get_height()/2))
 
-    def draw_sides_text(self, surface, player):
+    def draw_sides_text(self, surface, player, format_timer):
         score_font = pygame.font.SysFont('arial', 40)
         score_text = score_font.render(f'Score: {player.score}', True, (255, 255, 255))
         surface.blit(score_text, (self.start_x // 2 - score_text.get_width() / 2,
@@ -35,7 +35,7 @@ class Board:
         surface.blit(max_score_text, (self.screen_width - self.start_x // 2 - max_score_text.get_width() / 2,
                                       self.screen_height // 4 - max_score_text.get_height() / 2))
 
-        timer_text = score_font.render(f'Timer: {player.timer}', True, (255, 255, 255))
+        timer_text = score_font.render(f'Timer: {format_timer()}', True, (255, 255, 255))
         surface.blit(timer_text, (self.start_x // 2 - timer_text.get_width() / 2,
                                   self.screen_height // 4 - timer_text.get_height() / 2 + 100))
 
@@ -140,6 +140,15 @@ class Player:
         self.score = 0
         self.timer = 0
 
+    def format_timer(self):
+        mins = self.timer // 60
+        formatted_mins = f'0{mins}' if mins < 10 else mins
+        secs = self.timer - mins * 60
+        formatted_secs = f'0{secs}' if secs < 10 else secs
+        formatted_timer = f'{formatted_mins}:{formatted_secs}'
+
+        return formatted_timer
+
 
 def main():
     board = Board(20, 20, 30, WIDTH, HEIGHT)
@@ -172,7 +181,7 @@ def main():
         elif snake.loc_y < 0:
             snake.loc_y = 19
         snake.move()
-        board.draw_sides_text(WIN, player)
+        board.draw_sides_text(WIN, player, player.format_timer)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
