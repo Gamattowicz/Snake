@@ -9,7 +9,7 @@ pygame.display.set_caption('SNAKE')
 pygame.init()
 
 
-class Board():
+class Board:
     def __init__(self, columns, rows, square_size, width, height):
         self.columns = columns
         self.rows = rows
@@ -25,9 +25,9 @@ class Board():
         title_text = title_font.render(text, True, (255, 255, 255))
         surface.blit(title_text, (self.screen_width // 2 - title_text.get_width()/2, self.start_y // 2 - title_text.get_height()/2))
 
-    def draw_sides_text(self, surface):
+    def draw_sides_text(self, surface, player):
         score_font = pygame.font.SysFont('arial', 40)
-        score_text = score_font.render('Score: 0', True, (255, 255, 255))
+        score_text = score_font.render(f'Score: {player.score}', True, (255, 255, 255))
         surface.blit(score_text, (self.start_x // 2 - score_text.get_width() / 2,
                                   self.screen_height // 4 - score_text.get_height() / 2))
 
@@ -60,7 +60,7 @@ class Board():
                                                         self.start_y + self.columns * self.square_size), 3)
 
 
-class Snake():
+class Snake:
     def __init__(self, color):
         self.color = color
         self.loc_x = 10
@@ -70,9 +70,10 @@ class Snake():
         self.len_body = 1
         self.body = []
 
-    def place_snake(self, surface, board, apple, collision_check):
+    def place_snake(self, surface, board, apple, collision_check, player):
         if board.squares[self.loc_y][self.loc_x] == apple.color:
             self.len_body += 1
+            player.score += 1
             apple.place_apple(board, apple.generate_location(board))
         collision_check(surface, board)
         board.squares[self.loc_y][self.loc_x] = self.color
@@ -116,7 +117,7 @@ class Snake():
                     sys.exit()
 
 
-class Apple():
+class Apple:
     def __init__(self, color):
         self.color = color
 
@@ -134,23 +135,29 @@ class Apple():
         board.squares[location[0]][location[1]] = self.color
 
 
+class Player:
+    def __init__(self):
+        self.score = 0
+        self.timer = 0
+
+
 def main():
     board = Board(20, 20, 30, WIDTH, HEIGHT)
-    board.draw_title('SNAKE', WIN)
-    board.draw_sides_text(WIN)
     apple = Apple((255, 0, 0))
     apple.place_apple(board, apple.generate_location(board))
     snake = Snake((0, 255, 0))
+    player = Player()
     clock = pygame.time.Clock()
     time = 0
     run = True
     while run:
+        WIN.fill((0, 0, 0))
+        board.draw_title('SNAKE', WIN)
         board.create_squares(WIN)
         board.draw_grid(WIN)
         time += clock.get_rawtime()
         clock.tick(10)
-        snake.place_snake(WIN, board, apple, snake.collision_check)
-
+        snake.place_snake(WIN, board, apple, snake.collision_check, player)
         time = 0
         snake.loc_x += snake.move_x
         snake.loc_y += snake.move_y
@@ -163,6 +170,7 @@ def main():
         elif snake.loc_y < 0:
             snake.loc_y = 19
         snake.move()
+        board.draw_sides_text(WIN, player)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
