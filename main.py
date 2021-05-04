@@ -35,7 +35,7 @@ class Board:
         surface.blit(max_score_text, (self.screen_width - self.start_x // 2 - max_score_text.get_width() / 2,
                                       self.screen_height // 4 - max_score_text.get_height() / 2))
 
-        timer_text = score_font.render('Timer: 0', True, (255, 255, 255))
+        timer_text = score_font.render(f'Timer: {player.timer}', True, (255, 255, 255))
         surface.blit(timer_text, (self.start_x // 2 - timer_text.get_width() / 2,
                                   self.screen_height // 4 - timer_text.get_height() / 2 + 100))
 
@@ -155,10 +155,12 @@ def main():
         board.draw_title('SNAKE', WIN)
         board.create_squares(WIN)
         board.draw_grid(WIN)
-        time += clock.get_rawtime()
-        clock.tick(10)
+        time += clock.tick(10)
+        print(time)
+        if time / 1000 > 1:
+            time = 0
+            player.timer += 1
         snake.place_snake(WIN, board, apple, snake.collision_check, player)
-        time = 0
         snake.loc_x += snake.move_x
         snake.loc_y += snake.move_y
         if snake.loc_x == 20:
