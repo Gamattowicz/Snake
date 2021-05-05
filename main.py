@@ -19,6 +19,7 @@ class Board:
         self.start_y = (height - (rows * square_size)) // 2
         self.screen_width = width
         self.screen_height = height
+        self.active = 1
 
     def draw_title(self, text, surface):
         title_font = pygame.font.SysFont('arial', 60)
@@ -93,8 +94,7 @@ class Board:
         # player.restart_stats()
         board.draw_lost_text(WIN)
 
-    @staticmethod
-    def draw_lost_text(surface):
+    def draw_lost_text(self, surface):
         lost = True
 
         while lost:
@@ -104,7 +104,36 @@ class Board:
             retry_text = TITLE_FONT.render('Do you want to play again?', True, (255, 255, 255))
             surface.blit(retry_text, (WIDTH / 2 - retry_text.get_width() / 2, HEIGHT / 5))
 
+            retry_options = [('YES', 150), ('NO', - 150)]
+            for i, v in enumerate(retry_options, start=1):
+                if i == self.active:
+                    label = TITLE_FONT.render(v[0], True, (255, 0, 0))
+                else:
+                    label = TITLE_FONT.render(v[0], True, (255, 255, 255))
+                surface.blit(label, (WIDTH / 2 - label.get_width() / 2 - v[1], HEIGHT / 3 + 100))
             pygame.display.update()
+
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_RIGHT:
+                        if self.active == 2:
+                            self.active = 1
+                        else:
+                            self.active += 1
+                    elif event.key == pygame.K_LEFT:
+                        if self.active == 1:
+                            self.active = 2
+                        else:
+                            self.active -= 1
+                    elif event.key == pygame.K_RETURN:
+                        if self.active == 1:
+                            main()
+                        elif self.active == 2:
+                            pygame.quit()
+                            sys.exit()
 
 
 class Snake:
