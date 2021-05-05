@@ -3,7 +3,7 @@ import sys
 import random
 import csv
 from datetime import date
-from menu import draw_menu
+from menu import draw_menu, pause
 from leaderboard import get_leaderboard
 
 # SIZE OF SCREEN =
@@ -162,9 +162,11 @@ class Snake:
             board.squares[self.body[0][0]][self.body[0][1]] = (0, 0, 0)
             del self.body[0]
 
-    def move(self):
+    def move(self, surface, active, player):
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    pause(surface, active, WIDTH, HEIGHT, main, main_menu, get_leaderboard, player)
                 if self.move_x != 1:
                     if event.key == pygame.K_LEFT:
                         self.move_x = -1
@@ -273,7 +275,7 @@ def main():
             snake.loc_y = 0
         elif snake.loc_y < 0:
             snake.loc_y = 19
-        snake.move()
+        snake.move(WIN, board.active, player)
         board.draw_sides_text(WIN, player, player.format_timer, player.get_max_score)
 
         for event in pygame.event.get():
