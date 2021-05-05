@@ -44,6 +44,10 @@ class Board:
         surface.blit(timer_text, (self.start_x // 2 - timer_text.get_width() / 2,
                                   self.screen_height // 4 - timer_text.get_height() / 2 + 100))
 
+        speed_text = score_font.render(f'Speed: {player.speed}', True, (255, 255, 255))
+        surface.blit(speed_text, (self.screen_width - self.start_x // 2 - speed_text.get_width() / 2,
+                                  self.screen_height // 4 - speed_text.get_height() / 2 + 100))
+
     def create_squares(self, surface):
         for i in range(len(self.squares)):
             for j in range(len(self.squares[i])):
@@ -95,7 +99,6 @@ class Board:
 
         if player.score > 0:
             player.save_score(player.format_timer)
-        # player.restart_stats()
         board.draw_lost_text(WIN)
 
     def draw_lost_text(self, surface):
@@ -212,6 +215,7 @@ class Player:
         self.score = 0
         self.timer = 0
         self.name = ''
+        self.speed = 1
 
     def format_timer(self):
         mins = self.timer // 60
