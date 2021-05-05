@@ -2,6 +2,7 @@ import pygame
 import sys
 import random
 import csv
+from datetime import date
 from menu import draw_menu
 from leaderboard import get_leaderboard
 
@@ -226,7 +227,7 @@ class Player:
             if len(data) > 0:
                 f.write('\n')
             f.write(
-                f'{self.name},{str(self.score)},{format_timer()}')
+                f'{self.name},{str(self.score)},{format_timer()},{date.today()}')
 
     @staticmethod
     def get_max_score():
