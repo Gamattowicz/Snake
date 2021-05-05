@@ -75,7 +75,7 @@ class Snake:
             self.len_body += 1
             player.score += 1
             apple.place_apple(board, apple.generate_location(board))
-        collision_check(surface, board)
+        collision_check(surface, board, player)
         board.squares[self.loc_y][self.loc_x] = self.color
         self.body.append((self.loc_y, self.loc_x))
         if len(self.body) > self.len_body:
@@ -102,7 +102,7 @@ class Snake:
                         self.move_y = 1
                         self.move_x = 0
 
-    def collision_check(self, surface, board):
+    def collision_check(self, surface, board, player):
         run = False
         if board.squares[self.loc_y][self.loc_x] == self.color:
             run = True
@@ -113,6 +113,7 @@ class Snake:
             pygame.display.update()
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
+                    player.save_score(player.format_timer)
                     pygame.quit()
                     sys.exit()
 
@@ -149,6 +150,15 @@ class Player:
 
         return formatted_timer
 
+    def save_score(self, format_timer):
+        with open('scores.csv', 'a+') as f:
+            f.seek(0)
+            data = f.read(100)
+            if len(data) > 0:
+                f.write('\n')
+            f.write(
+                f'{str(self.score)},{format_timer()}')
+
 
 def main():
     board = Board(20, 20, 30, WIDTH, HEIGHT)
@@ -165,10 +175,11 @@ def main():
         board.create_squares(WIN)
         board.draw_grid(WIN)
         time += clock.tick(10)
-        print(time)
+
         if time / 1000 > 1:
             time = 0
             player.timer += 1
+
         snake.place_snake(WIN, board, apple, snake.collision_check, player)
         snake.loc_x += snake.move_x
         snake.loc_y += snake.move_y
