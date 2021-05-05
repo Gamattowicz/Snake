@@ -1,6 +1,7 @@
 import pygame
 import sys
 import random
+import csv
 
 # SIZE OF SCREEN =
 WIDTH, HEIGHT = 1100, 750
@@ -26,13 +27,13 @@ class Board:
         title_text = title_font.render(text, True, (255, 255, 255))
         surface.blit(title_text, (self.screen_width // 2 - title_text.get_width()/2, self.start_y // 2 - title_text.get_height()/2))
 
-    def draw_sides_text(self, surface, player, format_timer):
+    def draw_sides_text(self, surface, player, format_timer, get_max_score):
         score_font = pygame.font.SysFont('arial', 40)
         score_text = score_font.render(f'Score: {player.score}', True, (255, 255, 255))
         surface.blit(score_text, (self.start_x // 2 - score_text.get_width() / 2,
                                   self.screen_height // 4 - score_text.get_height() / 2))
 
-        max_score_text = score_font.render('Max score: 0', True, (255, 255, 255))
+        max_score_text = score_font.render(f'Max score: {get_max_score() if get_max_score() else 0}', True, (255, 255, 255))
         surface.blit(max_score_text, (self.screen_width - self.start_x // 2 - max_score_text.get_width() / 2,
                                       self.screen_height // 4 - max_score_text.get_height() / 2))
 
@@ -225,6 +226,18 @@ class Player:
             f.write(
                 f'{self.name},{str(self.score)},{format_timer()}')
 
+    @staticmethod
+    def get_max_score():
+        rows = []
+        with open('scores.csv', 'a+') as f:
+            f.seek(0)
+            reader = csv.reader(f, delimiter=',')
+            for row in reader:
+                rows.append(int(row[1]))
+        if len(rows) > 0:
+            max_score = sorted(rows, reverse=True)
+            return max_score[0]
+
 
 def main():
     board = Board(20, 20, 30, WIDTH, HEIGHT)
@@ -258,7 +271,7 @@ def main():
         elif snake.loc_y < 0:
             snake.loc_y = 19
         snake.move()
-        board.draw_sides_text(WIN, player, player.format_timer)
+        board.draw_sides_text(WIN, player, player.format_timer, player.get_max_score)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
