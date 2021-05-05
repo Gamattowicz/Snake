@@ -152,17 +152,6 @@ class Snake:
     def collision_check(self, surface, board, player):
         if board.squares[self.loc_y][self.loc_x] == self.color:
             board.draw_name(surface, player, board)
-        #     run = True
-        # while run:
-        #     WIN.fill((0, 0, 0))
-        #     lost_text = pygame.font.SysFont('arial', 95).render('YOU LOST!', True, (255, 255, 255))
-        #     surface.blit(lost_text, (100, 100))
-        #     pygame.display.update()
-        #     for event in pygame.event.get():
-        #         if event.type == pygame.QUIT:
-        #             player.save_score(player.format_timer)
-        #             pygame.quit()
-        #             sys.exit()
 
 
 class Apple:
@@ -205,7 +194,7 @@ class Player:
             if len(data) > 0:
                 f.write('\n')
             f.write(
-                f'{str(self.score)},{format_timer()}')
+                f'{self.name},{str(self.score)},{format_timer()}')
 
 
 def main():
