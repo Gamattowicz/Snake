@@ -62,7 +62,7 @@ def pause(win, active, width, height, main, main_menu, get_leaderboard, player):
                     if active == 1:
                         paused = False
                     elif active == 2:
-                        main()
+                        main(player)
                     elif active == 3:
                         main_menu(win)
                     elif active == 4:

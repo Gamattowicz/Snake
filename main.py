@@ -248,12 +248,11 @@ class Player:
             return max_score[0]
 
 
-def main():
+def main(player):
     board = Board(20, 20, 30, WIDTH, HEIGHT)
     apple = Apple((255, 0, 0))
     apple.place_apple(board, apple.generate_location(board))
     snake = Snake((0, 255, 0))
-    player = Player()
     clock = pygame.time.Clock()
     time = 0
     run = True
@@ -262,7 +261,7 @@ def main():
         board.draw_title('SNAKE', WIN)
         board.create_squares(WIN)
         board.draw_grid(WIN)
-        time += clock.tick(10)
+        time += clock.tick(7 + player.speed * 3)
 
         if time / 1000 > 1:
             time = 0
@@ -292,11 +291,13 @@ def main():
 
 def main_menu(surface):
     active = 1
+    player = Player()
     run = True
+    speeds = ['LOW', 'MEDIUM', 'HIGH']
 
     while run:
         surface.fill((0, 0, 0))
-        buttons = ['NEW GAME', 'LEADERBOARD', 'EXIT']
+        buttons = ['NEW GAME', f'SPEED: {speeds[player.speed - 1]}', 'LEADERBOARD', 'EXIT']
         draw_menu(surface, 'MAIN MENU', buttons, WIDTH, HEIGHT, active)
         pygame.display.update()
 
@@ -317,8 +318,13 @@ def main_menu(surface):
                         active -= 1
                 elif event.key == pygame.K_RETURN:
                     if active == 1:
-                        main()
-                    elif active == 2:
+                        main(player)
+                    if active == 2:
+                        if player.speed == 3:
+                            player.speed = 1
+                        else:
+                            player.speed += 1
+                    elif active == 3:
                         get_leaderboard(surface, WIDTH, HEIGHT)
                     elif active == 3:
                         pygame.quit()
