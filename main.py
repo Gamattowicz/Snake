@@ -99,9 +99,9 @@ class Board:
 
         if player.score > 0:
             player.save_score(player.format_timer)
-        board.draw_lost_text(WIN)
+        board.draw_lost_text(WIN, player)
 
-    def draw_lost_text(self, surface):
+    def draw_lost_text(self, surface, player):
         lost = True
 
         while lost:
@@ -137,7 +137,7 @@ class Board:
                             self.active -= 1
                     elif event.key == pygame.K_RETURN:
                         if self.active == 1:
-                            main()
+                            main(player)
                         elif self.active == 2:
                             pygame.quit()
                             sys.exit()
@@ -233,7 +233,7 @@ class Player:
             if len(data) > 0:
                 f.write('\n')
             f.write(
-                f'{self.name},{str(self.score)},{format_timer()},{date.today()}')
+                f'{self.name},{str(self.score)},{self.speed},{format_timer()},{date.today()}')
 
     @staticmethod
     def get_max_score():

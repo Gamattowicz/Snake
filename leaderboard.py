@@ -38,7 +38,7 @@ def draw_leaderboard(win, leaderboard, width, height):
 
 
 def get_leaderboard(win, width, height):
-    rows = [['No.', 'Name', 'Score', 'Time', 'Date']]
+    rows = [['No.', 'Name', 'Score', 'Speed level', 'Time', 'Date']]
     with open('scores.csv', 'a+') as f:
         f.seek(0)
         reader = csv.reader(f, delimiter=',')
