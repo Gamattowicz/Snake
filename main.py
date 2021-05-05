@@ -59,6 +59,53 @@ class Board:
                                                        (self.start_x + line * self.square_size,
                                                         self.start_y + self.columns * self.square_size), 3)
 
+    @staticmethod
+    def draw_name(surface, player, board):
+        draw = True
+        while draw:
+            for event in pygame.event.get():
+                if event.type == pygame.KEYDOWN:
+                    if event.unicode.isalpha():
+                        player.name += event.unicode
+                    elif event.key == pygame.K_BACKSPACE:
+                        player.name = player.name[:-1]
+                    elif event.key == pygame.K_RETURN or event.type == pygame.QUIT:
+                        draw = False
+            surface.fill((0, 0, 0))
+
+            LOST_FONT = pygame.font.SysFont('arial', 95)
+            lost_text = LOST_FONT.render('YOU LOST!', True, (255, 255, 255))
+            surface.blit(lost_text, (WIDTH / 2 - lost_text.get_width() / 2, HEIGHT / 10))
+
+            TITLE_FONT = pygame.font.SysFont('arial', 60)
+            input_text = TITLE_FONT.render('Enter your name:', True, (255, 255, 255))
+            surface.blit(input_text, (WIDTH / 2 - input_text.get_width() / 2, HEIGHT / 4 + 50))
+
+            PREVIEW_FONT = pygame.font.SysFont('arial', 20)
+            block = PREVIEW_FONT.render(player.name, True, (255, 255, 255))
+            rect = block.get_rect()
+            rect.center = surface.get_rect().center
+            surface.blit(block, rect)
+            pygame.display.update()
+
+        if player.score > 0:
+            player.save_score(player.format_timer)
+        # player.restart_stats()
+        board.draw_lost_text(WIN)
+
+    @staticmethod
+    def draw_lost_text(surface):
+        lost = True
+
+        while lost:
+            surface.fill((0, 0, 0))
+
+            TITLE_FONT = pygame.font.SysFont('arial', 60)
+            retry_text = TITLE_FONT.render('Do you want to play again?', True, (255, 255, 255))
+            surface.blit(retry_text, (WIDTH / 2 - retry_text.get_width() / 2, HEIGHT / 5))
+
+            pygame.display.update()
+
 
 class Snake:
     def __init__(self, color):
@@ -103,19 +150,19 @@ class Snake:
                         self.move_x = 0
 
     def collision_check(self, surface, board, player):
-        run = False
         if board.squares[self.loc_y][self.loc_x] == self.color:
-            run = True
-        while run:
-            WIN.fill((0, 0, 0))
-            lost_text = pygame.font.SysFont('arial', 95).render('YOU LOST!', True, (255, 255, 255))
-            surface.blit(lost_text, (100, 100))
-            pygame.display.update()
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    player.save_score(player.format_timer)
-                    pygame.quit()
-                    sys.exit()
+            board.draw_name(surface, player, board)
+        #     run = True
+        # while run:
+        #     WIN.fill((0, 0, 0))
+        #     lost_text = pygame.font.SysFont('arial', 95).render('YOU LOST!', True, (255, 255, 255))
+        #     surface.blit(lost_text, (100, 100))
+        #     pygame.display.update()
+        #     for event in pygame.event.get():
+        #         if event.type == pygame.QUIT:
+        #             player.save_score(player.format_timer)
+        #             pygame.quit()
+        #             sys.exit()
 
 
 class Apple:
@@ -140,6 +187,7 @@ class Player:
     def __init__(self):
         self.score = 0
         self.timer = 0
+        self.name = ''
 
     def format_timer(self):
         mins = self.timer // 60
