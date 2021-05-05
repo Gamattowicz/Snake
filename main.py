@@ -2,6 +2,8 @@ import pygame
 import sys
 import random
 import csv
+from menu import draw_menu
+
 
 # SIZE OF SCREEN =
 WIDTH, HEIGHT = 1100, 750
@@ -281,5 +283,42 @@ def main():
     sys.exit()
 
 
+def main_menu(surface):
+    active = 1
+    run = True
+
+    while run:
+        surface.fill((0, 0, 0))
+        buttons = ['NEW GAME', 'EXIT']
+        draw_menu(surface, 'MAIN MENU', buttons, WIDTH, HEIGHT, active)
+        pygame.display.update()
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                run = False
+                sys.exit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_DOWN:
+                    if active == 2:
+                        active = 1
+                    else:
+                        active += 1
+                elif event.key == pygame.K_UP:
+                    if active == 2:
+                        active = 1
+                    else:
+                        active -= 1
+                elif event.key == pygame.K_RETURN:
+                    if active == 1:
+                        main()
+                    elif active == 2:
+                        pygame.quit()
+                        sys.exit()
+
+    pygame.quit()
+    sys.exit()
+
+
 if __name__ == '__main__':
-    main()
+    main_menu(WIN)
