@@ -335,7 +335,7 @@ def main_menu(surface):
                     if active == 1:
                         main(player)
                     elif active == 2:
-                        if player.speed == 15:
+                        if player.speed == 11:
                             player.speed = 1
                             player.start_speed = 1
                         else:
