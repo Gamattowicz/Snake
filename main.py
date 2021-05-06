@@ -137,6 +137,7 @@ class Board:
                             self.active -= 1
                     elif event.key == pygame.K_RETURN:
                         if self.active == 1:
+                            player.restart_stats()
                             main(player)
                         elif self.active == 2:
                             pygame.quit()
@@ -246,6 +247,11 @@ class Player:
         if len(rows) > 0:
             max_score = sorted(rows, reverse=True)
             return max_score[0]
+
+    def restart_stats(self):
+        self.score = 0
+        self.timer = 0
+        self.name = ''
 
 
 def main(player):
