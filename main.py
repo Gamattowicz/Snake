@@ -1,10 +1,10 @@
 import pygame
 import sys
-import random
 import csv
 from datetime import date
 from menu import draw_menu, pause
 from leaderboard import get_leaderboard
+from apple import Apple
 
 # SIZE OF SCREEN =
 WIDTH, HEIGHT = 1100, 750
@@ -193,24 +193,6 @@ class Snake:
     def collision_check(self, surface, board, player):
         if board.squares[self.loc_y][self.loc_x] == self.color:
             board.draw_name(surface, player, board)
-
-
-class Apple:
-    def __init__(self, color):
-        self.color = color
-
-    @staticmethod
-    def generate_location(board):
-        squares = [[(j, i) for j in range(board.columns)] for i in range(board.rows)]
-        squares = [j for sub in squares for j in sub]
-
-        for i in range(10):
-            location = random.choice(squares)
-            if board.squares[location[0]][location[1]] != (0, 255, 0):
-                return location
-
-    def place_apple(self, board, location):
-        board.squares[location[0]][location[1]] = self.color
 
 
 class Player:
