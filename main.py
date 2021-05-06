@@ -44,7 +44,7 @@ class Board:
         surface.blit(timer_text, (self.start_x // 2 - timer_text.get_width() / 2,
                                   self.screen_height // 4 - timer_text.get_height() / 2 + 100))
 
-        speed_text = score_font.render(f'Speed: {player.speed}', True, (255, 255, 255))
+        speed_text = score_font.render(f'Speed: {round(player.speed, 1)}', True, (255, 255, 255))
         surface.blit(speed_text, (self.screen_width - self.start_x // 2 - speed_text.get_width() / 2,
                                   self.screen_height // 4 - speed_text.get_height() / 2 + 100))
 
@@ -159,7 +159,7 @@ class Snake:
             self.len_body += 1
             player.score += 1
             if player.mode == 2:
-                player.speed += 5
+                player.speed += 1
             apple.place_apple(board, apple.generate_location(board))
         collision_check(surface, board, player)
         board.squares[self.loc_y][self.loc_x] = self.color
@@ -270,12 +270,12 @@ def main(player):
         board.draw_title('SNAKE', WIN)
         board.create_squares(WIN)
         board.draw_grid(WIN)
-        time += clock.tick(7 + player.speed * 3)
+        time += clock.tick(8 + player.speed * 1)
 
         if time / 1000 > 1:
             time = 0
             if player.mode == 3:
-                player.speed += 1
+                player.speed += 0.1
             player.timer += 1
 
         snake.place_snake(WIN, board, apple, snake.collision_check, player)
@@ -310,7 +310,7 @@ def main_menu(surface):
 
     while run:
         surface.fill((0, 0, 0))
-        buttons = ['NEW GAME', f'SPEED: {speeds[player.speed - 1]}', f'MODE: {modes[player.mode - 1]}', 'LEADERBOARD', 'EXIT']
+        buttons = ['NEW GAME', f'SPEED: {speeds[(player.speed // 5)]}', f'MODE: {modes[player.mode - 1]}', 'LEADERBOARD', 'EXIT']
         draw_menu(surface, 'MAIN MENU', buttons, WIDTH, HEIGHT, active)
         pygame.display.update()
 
@@ -333,10 +333,10 @@ def main_menu(surface):
                     if active == 1:
                         main(player)
                     elif active == 2:
-                        if player.speed == 3:
+                        if player.speed == 15:
                             player.speed = 1
                         else:
-                            player.speed += 1
+                            player.speed += 5
                     elif active == 3:
                         if player.mode == 3:
                             player.mode = 1
