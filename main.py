@@ -220,6 +220,7 @@ class Player:
         self.name = ''
         self.speed = 1
         self.mode = 1
+        self.start_speed = 1
 
     def format_timer(self):
         mins = self.timer // 60
@@ -255,6 +256,7 @@ class Player:
         self.score = 0
         self.timer = 0
         self.name = ''
+        self.speed = self.start_speed
 
 
 def main(player):
@@ -335,8 +337,10 @@ def main_menu(surface):
                     elif active == 2:
                         if player.speed == 15:
                             player.speed = 1
+                            player.start_speed = 1
                         else:
                             player.speed += 5
+                            player.start_speed += 5
                     elif active == 3:
                         if player.mode == 3:
                             player.mode = 1
