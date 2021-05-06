@@ -14,6 +14,8 @@ pygame.init()
 BACKGROUND_COLOR = (37, 39, 77)
 BLOCK_COLOR = (41, 100, 138)
 GRID_COLOR = (70, 72, 102)
+APPLE_COLOR = (240, 112, 161)
+SNAKE_COLOR = (22, 255, 189)
 
 
 class Board:
@@ -246,9 +248,9 @@ class Player:
 
 def main(player):
     board = Board(20, 20, 30, WIDTH, HEIGHT)
-    apple = Apple((255, 0, 0))
+    apple = Apple(APPLE_COLOR)
     apple.place_apple(board, apple.generate_location(board))
-    snake = Snake((0, 255, 0))
+    snake = Snake(SNAKE_COLOR)
     clock = pygame.time.Clock()
     time = 0
     run = True
