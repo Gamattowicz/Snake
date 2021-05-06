@@ -16,6 +16,8 @@ BLOCK_COLOR = (41, 100, 138)
 GRID_COLOR = (70, 72, 102)
 APPLE_COLOR = (240, 112, 161)
 SNAKE_COLOR = (22, 255, 189)
+SIDE_FONT = pygame.font.Font('Montserrat-SemiBold.ttf', 30)
+TITLE_FONT = pygame.font.Font('Raleway-ExtraBold.ttf', 50)
 
 
 class Board:
@@ -31,25 +33,23 @@ class Board:
         self.active = 1
 
     def draw_title(self, text, surface):
-        title_font = pygame.font.SysFont('arial', 60)
-        title_text = title_font.render(text, True, (255, 255, 255))
+        title_text = TITLE_FONT.render(text, True, (255, 255, 255))
         surface.blit(title_text, (self.screen_width // 2 - title_text.get_width()/2, self.start_y // 2 - title_text.get_height()/2))
 
     def draw_sides_text(self, surface, player, format_timer, get_max_score):
-        score_font = pygame.font.SysFont('arial', 40)
-        score_text = score_font.render(f'Score: {player.score}', True, (255, 255, 255))
+        score_text = SIDE_FONT.render(f'Score: {player.score}', True, (255, 255, 255))
         surface.blit(score_text, (self.start_x // 2 - score_text.get_width() / 2,
                                   self.screen_height // 4 - score_text.get_height() / 2))
 
-        max_score_text = score_font.render(f'Max score: {get_max_score() if get_max_score() else 0}', True, (255, 255, 255))
+        max_score_text = SIDE_FONT.render(f'Max score: {get_max_score() if get_max_score() else 0}', True, (255, 255, 255))
         surface.blit(max_score_text, (self.screen_width - self.start_x // 2 - max_score_text.get_width() / 2,
                                       self.screen_height // 4 - max_score_text.get_height() / 2))
 
-        timer_text = score_font.render(f'Timer: {format_timer()}', True, (255, 255, 255))
+        timer_text = SIDE_FONT.render(f'Timer: {format_timer()}', True, (255, 255, 255))
         surface.blit(timer_text, (self.start_x // 2 - timer_text.get_width() / 2,
                                   self.screen_height // 4 - timer_text.get_height() / 2 + 100))
 
-        speed_text = score_font.render(f'Speed: {round(player.speed, 1)}', True, (255, 255, 255))
+        speed_text = SIDE_FONT.render(f'Speed: {round(player.speed, 1)}', True, (255, 255, 255))
         surface.blit(speed_text, (self.screen_width - self.start_x // 2 - speed_text.get_width() / 2,
                                   self.screen_height // 4 - speed_text.get_height() / 2 + 100))
 
@@ -87,16 +87,13 @@ class Board:
                         draw = False
             surface.fill((0, 0, 0))
 
-            LOST_FONT = pygame.font.SysFont('arial', 95)
-            lost_text = LOST_FONT.render('YOU LOST!', True, (255, 255, 255))
+            lost_text = SIDE_FONT.render('YOU LOST!', True, (255, 255, 255))
             surface.blit(lost_text, (WIDTH / 2 - lost_text.get_width() / 2, HEIGHT / 10))
 
-            TITLE_FONT = pygame.font.SysFont('arial', 60)
-            input_text = TITLE_FONT.render('Enter your name:', True, (255, 255, 255))
+            input_text = SIDE_FONT.render('Enter your name:', True, (255, 255, 255))
             surface.blit(input_text, (WIDTH / 2 - input_text.get_width() / 2, HEIGHT / 4 + 50))
 
-            PREVIEW_FONT = pygame.font.SysFont('arial', 20)
-            block = PREVIEW_FONT.render(player.name, True, (255, 255, 255))
+            block = SIDE_FONT.render(player.name, True, (255, 255, 255))
             rect = block.get_rect()
             rect.center = surface.get_rect().center
             surface.blit(block, rect)
@@ -112,16 +109,15 @@ class Board:
         while lost:
             surface.fill(BACKGROUND_COLOR)
 
-            TITLE_FONT = pygame.font.SysFont('arial', 60)
-            retry_text = TITLE_FONT.render('Do you want to play again?', True, (255, 255, 255))
+            retry_text = SIDE_FONT.render('Do you want to play again?', True, (255, 255, 255))
             surface.blit(retry_text, (WIDTH / 2 - retry_text.get_width() / 2, HEIGHT / 5))
 
             retry_options = [('YES', 150), ('NO', - 150)]
             for i, v in enumerate(retry_options, start=1):
                 if i == self.active:
-                    label = TITLE_FONT.render(v[0], True, (255, 0, 0))
+                    label = SIDE_FONT.render(v[0], True, (255, 0, 0))
                 else:
-                    label = TITLE_FONT.render(v[0], True, (255, 255, 255))
+                    label = SIDE_FONT.render(v[0], True, (255, 255, 255))
                 surface.blit(label, (WIDTH / 2 - label.get_width() / 2 - v[1], HEIGHT / 3 + 100))
             pygame.display.update()
 
