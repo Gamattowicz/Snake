@@ -157,7 +157,7 @@ class Snake:
     def place_snake(self, surface, board, apple, collision_check, player):
         if board.squares[self.loc_y][self.loc_x] == apple.color:
             self.len_body += 1
-            player.score += 1
+            player.score += 10 + player.speed * player.mode
             if player.mode == 2:
                 player.speed += 1
             apple.place_apple(board, apple.generate_location(board))
