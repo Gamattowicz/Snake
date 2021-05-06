@@ -157,7 +157,7 @@ class Snake:
     def place_snake(self, surface, board, apple, collision_check, player):
         if board.squares[self.loc_y][self.loc_x] == apple.color:
             self.len_body += 1
-            player.score += 10 + player.speed * player.mode
+            player.score += round(10 + player.speed * player.mode)
             if player.mode == 2:
                 player.speed += 1
             apple.place_apple(board, apple.generate_location(board))
@@ -238,7 +238,7 @@ class Player:
             if len(data) > 0:
                 f.write('\n')
             f.write(
-                f'{self.name},{str(self.score)},{self.speed},{format_timer()},{date.today()}')
+                f'{self.name},{str(self.score)},{round(self.speed, 1)},{format_timer()},{date.today()}')
 
     @staticmethod
     def get_max_score():
