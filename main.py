@@ -11,6 +11,9 @@ WIDTH, HEIGHT = 1100, 750
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption('SNAKE')
 pygame.init()
+BACKGROUND_COLOR = (37, 39, 77)
+BLOCK_COLOR = (41, 100, 138)
+GRID_COLOR = (70, 72, 102)
 
 
 class Board:
@@ -18,7 +21,7 @@ class Board:
         self.columns = columns
         self.rows = rows
         self.square_size = square_size
-        self.squares = [[(0, 0, 0) for column in range(self.columns)] for row in range(self.rows)]
+        self.squares = [[BLOCK_COLOR for column in range(self.columns)] for row in range(self.rows)]
         self.start_x = (width - (columns * square_size)) // 2
         self.start_y = (height - (rows * square_size)) // 2
         self.screen_width = width
@@ -60,11 +63,11 @@ class Board:
 
     def draw_grid(self, surface):
         for line in range(self.rows + 1):
-            pygame.draw.line(surface, (125, 125, 125), (self.start_x, self.start_y + line * self.square_size),
+            pygame.draw.line(surface, GRID_COLOR, (self.start_x, self.start_y + line * self.square_size),
                                                        (self.start_x + self.rows * self.square_size,
                                                         self.start_y + line * self.square_size), 3)
         for line in range(self.columns + 1):
-            pygame.draw.line(surface, (125, 125, 125), (self.start_x + line * self.square_size, self.start_y),
+            pygame.draw.line(surface, GRID_COLOR, (self.start_x + line * self.square_size, self.start_y),
                                                        (self.start_x + line * self.square_size,
                                                         self.start_y + self.columns * self.square_size), 3)
 
@@ -105,7 +108,7 @@ class Board:
         lost = True
 
         while lost:
-            surface.fill((0, 0, 0))
+            surface.fill(BACKGROUND_COLOR)
 
             TITLE_FONT = pygame.font.SysFont('arial', 60)
             retry_text = TITLE_FONT.render('Do you want to play again?', True, (255, 255, 255))
@@ -165,7 +168,7 @@ class Snake:
         board.squares[self.loc_y][self.loc_x] = self.color
         self.body.append((self.loc_y, self.loc_x))
         if len(self.body) > self.len_body:
-            board.squares[self.body[0][0]][self.body[0][1]] = (0, 0, 0)
+            board.squares[self.body[0][0]][self.body[0][1]] = BLOCK_COLOR
             del self.body[0]
 
     def move(self, surface, active, player):
@@ -250,7 +253,7 @@ def main(player):
     time = 0
     run = True
     while run:
-        WIN.fill((0, 0, 0))
+        WIN.fill(BACKGROUND_COLOR)
         board.draw_title('SNAKE', WIN)
         board.create_squares(WIN)
         board.draw_grid(WIN)
@@ -293,7 +296,7 @@ def main_menu(surface):
              'HARDCORE (INCREASING SPEED OVER TIME)']
 
     while run:
-        surface.fill((0, 0, 0))
+        surface.fill(BACKGROUND_COLOR)
         buttons = ['NEW GAME', f'SPEED: {speeds[(player.speed // 5)]}', f'MODE: {modes[player.mode - 1]}', 'LEADERBOARD', 'EXIT']
         draw_menu(surface, 'MAIN MENU', buttons, WIDTH, HEIGHT, active)
         pygame.display.update()

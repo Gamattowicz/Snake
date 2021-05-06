@@ -5,6 +5,7 @@ pygame.font.init()
 
 TITLE_FONT = pygame.font.SysFont('arial', 60)
 BUTTON_FONT = pygame.font.SysFont('arial', 25)
+BACKGROUND_COLOR = (37, 39, 77)
 
 
 def draw_menu_button(surface, text, row, color, width, height):
@@ -37,7 +38,7 @@ def pause(win, active, width, height, main, main_menu, get_leaderboard, player):
     paused = True
 
     while paused:
-        win.fill((0, 0, 0))
+        win.fill(BACKGROUND_COLOR)
         draw_menu(win, 'PAUSE', buttons, width, height, active)
         pygame.display.update()
 
