@@ -158,6 +158,8 @@ class Snake:
         if board.squares[self.loc_y][self.loc_x] == apple.color:
             self.len_body += 1
             player.score += 1
+            if player.mode == 2:
+                player.speed += 5
             apple.place_apple(board, apple.generate_location(board))
         collision_check(surface, board, player)
         board.squares[self.loc_y][self.loc_x] = self.color
@@ -217,6 +219,7 @@ class Player:
         self.timer = 0
         self.name = ''
         self.speed = 1
+        self.mode = 1
 
     def format_timer(self):
         mins = self.timer // 60
@@ -271,6 +274,8 @@ def main(player):
 
         if time / 1000 > 1:
             time = 0
+            if player.mode == 3:
+                player.speed += 1
             player.timer += 1
 
         snake.place_snake(WIN, board, apple, snake.collision_check, player)
@@ -300,10 +305,12 @@ def main_menu(surface):
     player = Player()
     run = True
     speeds = ['LOW', 'MEDIUM', 'HIGH']
+    modes = ['ENDLESS (CONSTANT SPEED)', 'SURVIVAL (INCREASING SPEED AFTER EATING APPLE)',
+             'HARDCORE (INCREASING SPEED OVER TIME)']
 
     while run:
         surface.fill((0, 0, 0))
-        buttons = ['NEW GAME', f'SPEED: {speeds[player.speed - 1]}', 'LEADERBOARD', 'EXIT']
+        buttons = ['NEW GAME', f'SPEED: {speeds[player.speed - 1]}', f'MODE: {modes[player.mode - 1]}', 'LEADERBOARD', 'EXIT']
         draw_menu(surface, 'MAIN MENU', buttons, WIDTH, HEIGHT, active)
         pygame.display.update()
 
@@ -313,26 +320,31 @@ def main_menu(surface):
                 sys.exit()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_DOWN:
-                    if active == 3:
+                    if active == 5:
                         active = 1
                     else:
                         active += 1
                 elif event.key == pygame.K_UP:
                     if active == 1:
-                        active = 3
+                        active = 5
                     else:
                         active -= 1
                 elif event.key == pygame.K_RETURN:
                     if active == 1:
                         main(player)
-                    if active == 2:
+                    elif active == 2:
                         if player.speed == 3:
                             player.speed = 1
                         else:
                             player.speed += 1
                     elif active == 3:
+                        if player.mode == 3:
+                            player.mode = 1
+                        else:
+                            player.mode += 1
+                    elif active == 4:
                         get_leaderboard(surface, WIDTH, HEIGHT)
-                    elif active == 3:
+                    elif active == 5:
                         pygame.quit()
                         sys.exit()
 
