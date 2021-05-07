@@ -2,7 +2,7 @@ import pygame
 import sys
 import csv
 from datetime import date
-from menu import draw_menu, pause
+from menu import draw_menu, pause, ACTIVE_COLOR, BACKGROUND_COLOR, TEXT_COLOR, TITLE_FONT, SIDE_FONT
 from leaderboard import get_leaderboard
 from apple import Apple
 
@@ -11,14 +11,10 @@ WIDTH, HEIGHT = 1100, 750
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption('SNAKE')
 pygame.init()
-BACKGROUND_COLOR = (37, 39, 77)
 BLOCK_COLOR = (41, 100, 138)
 GRID_COLOR = (70, 72, 102)
 APPLE_COLOR = (240, 112, 161)
 SNAKE_COLOR = (22, 255, 189)
-TEXT_COLOR = (255, 250, 250)
-SIDE_FONT = pygame.font.Font('Montserrat-SemiBold.ttf', 30)
-TITLE_FONT = pygame.font.Font('Raleway-ExtraBold.ttf', 50)
 
 
 class Board:
@@ -116,7 +112,7 @@ class Board:
             retry_options = [('YES', 150), ('NO', - 150)]
             for i, v in enumerate(retry_options, start=1):
                 if i == self.active:
-                    label = SIDE_FONT.render(v[0], True, (255, 0, 0))
+                    label = SIDE_FONT.render(v[0], True, ACTIVE_COLOR)
                 else:
                     label = SIDE_FONT.render(v[0], True, TEXT_COLOR)
                 surface.blit(label, (WIDTH / 2 - label.get_width() / 2 - v[1], HEIGHT / 3 + 100))

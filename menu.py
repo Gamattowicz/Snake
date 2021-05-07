@@ -4,8 +4,10 @@ import sys
 pygame.font.init()
 
 TITLE_FONT = pygame.font.Font('Raleway-ExtraBold.ttf', 50)
-BUTTON_FONT = pygame.font.Font('Montserrat-SemiBold.ttf', 30)
+SIDE_FONT = pygame.font.Font('Montserrat-SemiBold.ttf', 30)
 BACKGROUND_COLOR = (37, 39, 77)
+TEXT_COLOR = (255, 250, 250)
+ACTIVE_COLOR = (255, 81, 0)
 
 
 def draw_menu_button(surface, text, row, color, width, height):
@@ -17,20 +19,20 @@ def draw_menu_button(surface, text, row, color, width, height):
         5: -50
     }
 
-    label = BUTTON_FONT.render(text, True, color)
+    label = SIDE_FONT.render(text, True, color)
     button_x = width / 2 - label.get_width() / 2
     surface.blit(label, (button_x, height / 2 - rows_height[row]))
 
 
 def draw_menu(surface, menu_title, buttons, width, height, active):
-    menu_text = TITLE_FONT.render(menu_title, True, (255, 255, 255))
+    menu_text = TITLE_FONT.render(menu_title, True, TEXT_COLOR)
     surface.blit(menu_text, (width / 2 - menu_text.get_width() / 2, height / 2 - 250))
 
     for i, v in enumerate(buttons, start=1):
         if i == active:
-            draw_menu_button(surface, v, i, (255, 0, 0), width, height)
+            draw_menu_button(surface, v, i, ACTIVE_COLOR, width, height)
         else:
-            draw_menu_button(surface, v, i, (255, 255, 255), width, height)
+            draw_menu_button(surface, v, i, TEXT_COLOR, width, height)
 
 
 def pause(win, active, width, height, main, main_menu, get_leaderboard, player):
