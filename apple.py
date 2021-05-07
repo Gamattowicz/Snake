@@ -6,13 +6,13 @@ class Apple:
         self.color = color
 
     @staticmethod
-    def generate_location(board):
+    def generate_location(board, snake_color):
         squares = [[(j, i) for j in range(board.columns)] for i in range(board.rows)]
         squares = [j for sub in squares for j in sub]
 
         for i in range(10):
             location = random.choice(squares)
-            if board.squares[location[0]][location[1]] != (0, 255, 0):
+            if board.squares[location[0]][location[1]] != snake_color:
                 return location
 
     def place_apple(self, board, location):

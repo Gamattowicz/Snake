@@ -16,6 +16,7 @@ BLOCK_COLOR = (41, 100, 138)
 GRID_COLOR = (70, 72, 102)
 APPLE_COLOR = (240, 112, 161)
 SNAKE_COLOR = (22, 255, 189)
+TEXT_COLOR = (255, 250, 250)
 SIDE_FONT = pygame.font.Font('Montserrat-SemiBold.ttf', 30)
 TITLE_FONT = pygame.font.Font('Raleway-ExtraBold.ttf', 50)
 
@@ -33,23 +34,23 @@ class Board:
         self.active = 1
 
     def draw_title(self, text, surface):
-        title_text = TITLE_FONT.render(text, True, (255, 255, 255))
+        title_text = TITLE_FONT.render(text, True, TEXT_COLOR)
         surface.blit(title_text, (self.screen_width // 2 - title_text.get_width()/2, self.start_y // 2 - title_text.get_height()/2))
 
     def draw_sides_text(self, surface, player, format_timer, get_max_score):
-        score_text = SIDE_FONT.render(f'Score: {player.score}', True, (255, 255, 255))
+        score_text = SIDE_FONT.render(f'Score: {player.score}', True, TEXT_COLOR)
         surface.blit(score_text, (self.start_x // 2 - score_text.get_width() / 2,
                                   self.screen_height // 4 - score_text.get_height() / 2))
 
-        max_score_text = SIDE_FONT.render(f'Max score: {get_max_score() if get_max_score() else 0}', True, (255, 255, 255))
+        max_score_text = SIDE_FONT.render(f'Max score: {get_max_score() if get_max_score() else 0}', True, TEXT_COLOR)
         surface.blit(max_score_text, (self.screen_width - self.start_x // 2 - max_score_text.get_width() / 2,
                                       self.screen_height // 4 - max_score_text.get_height() / 2))
 
-        timer_text = SIDE_FONT.render(f'Timer: {format_timer()}', True, (255, 255, 255))
+        timer_text = SIDE_FONT.render(f'Timer: {format_timer()}', True, TEXT_COLOR)
         surface.blit(timer_text, (self.start_x // 2 - timer_text.get_width() / 2,
                                   self.screen_height // 4 - timer_text.get_height() / 2 + 100))
 
-        speed_text = SIDE_FONT.render(f'Speed: {round(player.speed, 1)}', True, (255, 255, 255))
+        speed_text = SIDE_FONT.render(f'Speed: {round(player.speed, 1)}', True, TEXT_COLOR)
         surface.blit(speed_text, (self.screen_width - self.start_x // 2 - speed_text.get_width() / 2,
                                   self.screen_height // 4 - speed_text.get_height() / 2 + 100))
 
@@ -87,13 +88,13 @@ class Board:
                         draw = False
             surface.fill((0, 0, 0))
 
-            lost_text = SIDE_FONT.render('YOU LOST!', True, (255, 255, 255))
+            lost_text = SIDE_FONT.render('YOU LOST!', True, TEXT_COLOR)
             surface.blit(lost_text, (WIDTH / 2 - lost_text.get_width() / 2, HEIGHT / 10))
 
-            input_text = SIDE_FONT.render('Enter your name:', True, (255, 255, 255))
+            input_text = SIDE_FONT.render('Enter your name:', True, TEXT_COLOR)
             surface.blit(input_text, (WIDTH / 2 - input_text.get_width() / 2, HEIGHT / 4 + 50))
 
-            block = SIDE_FONT.render(player.name, True, (255, 255, 255))
+            block = SIDE_FONT.render(player.name, True, TEXT_COLOR)
             rect = block.get_rect()
             rect.center = surface.get_rect().center
             surface.blit(block, rect)
@@ -109,7 +110,7 @@ class Board:
         while lost:
             surface.fill(BACKGROUND_COLOR)
 
-            retry_text = SIDE_FONT.render('Do you want to play again?', True, (255, 255, 255))
+            retry_text = SIDE_FONT.render('Do you want to play again?', True, TEXT_COLOR)
             surface.blit(retry_text, (WIDTH / 2 - retry_text.get_width() / 2, HEIGHT / 5))
 
             retry_options = [('YES', 150), ('NO', - 150)]
@@ -117,7 +118,7 @@ class Board:
                 if i == self.active:
                     label = SIDE_FONT.render(v[0], True, (255, 0, 0))
                 else:
-                    label = SIDE_FONT.render(v[0], True, (255, 255, 255))
+                    label = SIDE_FONT.render(v[0], True, TEXT_COLOR)
                 surface.blit(label, (WIDTH / 2 - label.get_width() / 2 - v[1], HEIGHT / 3 + 100))
             pygame.display.update()
 
@@ -161,7 +162,7 @@ class Snake:
             player.score += round(10 + player.speed * player.mode)
             if player.mode == 2:
                 player.speed += 1
-            apple.place_apple(board, apple.generate_location(board))
+            apple.place_apple(board, apple.generate_location(board, SNAKE_COLOR))
         collision_check(surface, board, player)
         board.squares[self.loc_y][self.loc_x] = self.color
         self.body.append((self.loc_y, self.loc_x))
@@ -245,7 +246,7 @@ class Player:
 def main(player):
     board = Board(20, 20, 30, WIDTH, HEIGHT)
     apple = Apple(APPLE_COLOR)
-    apple.place_apple(board, apple.generate_location(board))
+    apple.place_apple(board, apple.generate_location(board, SNAKE_COLOR))
     snake = Snake(SNAKE_COLOR)
     clock = pygame.time.Clock()
     time = 0
