@@ -1,11 +1,7 @@
 import pygame
 import csv
 import sys
-
-pygame.font.init()
-
-TITLE_FONT = pygame.font.SysFont('arial', 60)
-SCORE_FONT = pygame.font.SysFont('arial', 25)
+from menu import TITLE_FONT, SIDE_FONT
 
 
 def draw_leaderboard(win, leaderboard, width, height):
@@ -18,18 +14,18 @@ def draw_leaderboard(win, leaderboard, width, height):
         for index, j in enumerate(v):
             # draw title row
             if i == 0:
-                label = SCORE_FONT.render(j, True, (255, 255, 255))
+                label = SIDE_FONT.render(j, True, (255, 255, 255))
                 button_x = width / 2 - label.get_width() / 2
                 win.blit(label, (button_x + width_btn, height/ 3 - 100))
             else:
                 # draw place of score
                 if index == 0:
-                    label = SCORE_FONT.render(str(i), True, (255, 255, 255))
+                    label = SIDE_FONT.render(str(i), True, (255, 255, 255))
                     button_x = width / 2 - label.get_width() / 2
                     win.blit(label, (button_x + width_btn, height / 3 + height_btn))
                     width_btn += 100
                 # draw score and time
-                label = SCORE_FONT.render(j, True, (255, 255, 255))
+                label = SIDE_FONT.render(j, True, (255, 255, 255))
                 button_x = width / 2 - label.get_width() / 2
                 win.blit(label, (button_x + width_btn, height / 3 + height_btn))
             width_btn += 100
