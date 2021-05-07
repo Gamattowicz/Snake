@@ -8,7 +8,7 @@ def draw_leaderboard(win, leaderboard, width, height):
     menu_text = TITLE_FONT.render('LEADERBOARD', True, (255, 255, 255))
     win.blit(menu_text, (width / 2 - menu_text.get_width() / 2, height / 2 - 350))
 
-    width_btn = -300
+    width_btn = -400
     height_btn = -100
     for i, v in enumerate(leaderboard):
         for index, j in enumerate(v):
@@ -16,20 +16,20 @@ def draw_leaderboard(win, leaderboard, width, height):
             if i == 0:
                 label = SIDE_FONT.render(j, True, (255, 255, 255))
                 button_x = width / 2 - label.get_width() / 2
-                win.blit(label, (button_x + width_btn, height/ 3 - 100))
+                win.blit(label, (button_x + width_btn, height / 3 - 100))
             else:
                 # draw place of score
                 if index == 0:
                     label = SIDE_FONT.render(str(i), True, (255, 255, 255))
                     button_x = width / 2 - label.get_width() / 2
                     win.blit(label, (button_x + width_btn, height / 3 + height_btn))
-                    width_btn += 100
+                    width_btn += 150
                 # draw score and time
                 label = SIDE_FONT.render(j, True, (255, 255, 255))
                 button_x = width / 2 - label.get_width() / 2
                 win.blit(label, (button_x + width_btn, height / 3 + height_btn))
-            width_btn += 100
-        width_btn = -300
+            width_btn += 150
+        width_btn = -400
         height_btn += 50
 
 
