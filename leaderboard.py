@@ -1,11 +1,13 @@
 import pygame
 import csv
 import sys
-from menu import TITLE_FONT, SIDE_FONT
+from menu import TITLE_FONT, SIDE_FONT, BACKGROUND_COLOR, TEXT_COLOR
+
+MAIN_ROW_COLOR = (41, 100, 138)
 
 
 def draw_leaderboard(win, leaderboard, width, height):
-    menu_text = TITLE_FONT.render('LEADERBOARD', True, (255, 255, 255))
+    menu_text = TITLE_FONT.render('LEADERBOARD', True, TEXT_COLOR)
     win.blit(menu_text, (width / 2 - menu_text.get_width() / 2, height / 2 - 350))
 
     width_btn = -400
@@ -14,18 +16,18 @@ def draw_leaderboard(win, leaderboard, width, height):
         for index, j in enumerate(v):
             # draw title row
             if i == 0:
-                label = SIDE_FONT.render(j, True, (255, 255, 255))
+                label = SIDE_FONT.render(j, True, MAIN_ROW_COLOR)
                 button_x = width / 2 - label.get_width() / 2
                 win.blit(label, (button_x + width_btn, height / 3 - 100))
             else:
                 # draw place of score
                 if index == 0:
-                    label = SIDE_FONT.render(str(i), True, (255, 255, 255))
+                    label = SIDE_FONT.render(str(i), True, TEXT_COLOR)
                     button_x = width / 2 - label.get_width() / 2
                     win.blit(label, (button_x + width_btn, height / 3 + height_btn))
                     width_btn += 150
                 # draw score and time
-                label = SIDE_FONT.render(j, True, (255, 255, 255))
+                label = SIDE_FONT.render(j, True, TEXT_COLOR)
                 button_x = width / 2 - label.get_width() / 2
                 win.blit(label, (button_x + width_btn, height / 3 + height_btn))
             width_btn += 150
@@ -48,7 +50,7 @@ def get_leaderboard(win, width, height):
     high_scores = True
 
     while high_scores:
-        win.fill((0, 0, 0))
+        win.fill(BACKGROUND_COLOR)
         draw_leaderboard(win, leaderboard, width, height)
         pygame.display.update()
 
