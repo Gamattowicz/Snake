@@ -260,6 +260,12 @@ def main(player):
                 player.speed += 0.1
             player.timer += 1
 
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                run = False
+                sys.exit()
+
         snake.place_snake(WIN, board, apple, snake.collision_check, player)
         snake.loc_x += snake.move_x
         snake.loc_y += snake.move_y
@@ -273,13 +279,9 @@ def main(player):
             snake.loc_y = 19
         snake.move(WIN, board.active, player)
         board.draw_sides_text(WIN, player, player.format_timer, player.get_max_score)
-
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                run = False
         pygame.display.update()
-    pygame.quit()
-    sys.exit()
+
+    pygame.display.quit()
 
 
 def main_menu(surface):
