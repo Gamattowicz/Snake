@@ -168,7 +168,11 @@ class Snake:
 
     def move(self, surface, active, player):
         for event in pygame.event.get():
-            if event.type == pygame.KEYDOWN:
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                run = False
+                sys.exit()
+            elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     pause(surface, active, WIDTH, HEIGHT, main, main_menu, get_leaderboard, player)
                 if self.move_x != 1:
@@ -259,12 +263,6 @@ def main(player):
             if player.mode == 3:
                 player.speed += 0.1
             player.timer += 1
-
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                run = False
-                sys.exit()
 
         snake.place_snake(WIN, board, apple, snake.collision_check, player)
         snake.loc_x += snake.move_x
