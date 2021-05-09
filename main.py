@@ -5,70 +5,15 @@ from leaderboard import get_leaderboard
 from apple import Apple
 from player import Player
 from board import Board
+from snake import Snake
 
 # SIZE OF SCREEN =
 WIDTH, HEIGHT = 1100, 750
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption('SNAKE')
 pygame.init()
-BLOCK_COLOR = (41, 100, 138)
 APPLE_COLOR = (240, 112, 161)
 SNAKE_COLOR = (22, 255, 189)
-
-
-class Snake:
-    def __init__(self, color):
-        self.color = color
-        self.loc_x = 10
-        self.loc_y = 10
-        self.move_x = 1
-        self.move_y = 0
-        self.len_body = 1
-        self.body = []
-
-    def place_snake(self, surface, board, apple, collision_check, player):
-        if board.squares[self.loc_y][self.loc_x] == apple.color:
-            self.len_body += 1
-            player.score += round(10 + player.speed * player.mode)
-            if player.mode == 2:
-                player.speed += 1
-            apple.place_apple(board, apple.generate_location(board, SNAKE_COLOR))
-        collision_check(surface, board, player)
-        board.squares[self.loc_y][self.loc_x] = self.color
-        self.body.append((self.loc_y, self.loc_x))
-        if len(self.body) > self.len_body:
-            board.squares[self.body[0][0]][self.body[0][1]] = BLOCK_COLOR
-            del self.body[0]
-
-    def move(self, surface, active, player):
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                run = False
-                sys.exit()
-            elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE:
-                    pause(surface, active, WIDTH, HEIGHT, main, main_menu, get_leaderboard, player)
-                if self.move_x != 1:
-                    if event.key == pygame.K_LEFT:
-                        self.move_x = -1
-                        self.move_y = 0
-                if self.move_x != -1:
-                    if event.key == pygame.K_RIGHT:
-                        self.move_x = 1
-                        self.move_y = 0
-                if self.move_y != 1:
-                    if event.key == pygame.K_UP:
-                        self.move_y = -1
-                        self.move_x = 0
-                if self.move_y != -1:
-                    if event.key == pygame.K_DOWN:
-                        self.move_y = 1
-                        self.move_x = 0
-
-    def collision_check(self, surface, board, player):
-        if board.squares[self.loc_y][self.loc_x] == self.color:
-            board.draw_name(surface, player, board, main)
 
 
 def main(player):
@@ -92,7 +37,7 @@ def main(player):
                 player.speed += 0.1
             player.timer += 1
 
-        snake.place_snake(WIN, board, apple, snake.collision_check, player)
+        snake.place_snake(WIN, board, apple, snake.collision_check, player, main)
         snake.loc_x += snake.move_x
         snake.loc_y += snake.move_y
         if snake.loc_x == 20:
@@ -103,7 +48,7 @@ def main(player):
             snake.loc_y = 0
         elif snake.loc_y < 0:
             snake.loc_y = 19
-        snake.move(WIN, board.active, player)
+        snake.move(WIN, board.active, player, WIDTH, HEIGHT, main, main_menu, get_leaderboard, pause)
         board.draw_sides_text(WIN, player, player.format_timer, player.get_max_score)
         pygame.display.update()
 
