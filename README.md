@@ -43,7 +43,7 @@ python main.py
 * 3 available game speed
 
 ## Demo
-![gameplay] (gameplay.gif)
+![gif/gameplay.gif](https://github.com/Gamattowicz/Snake/blob/main/gameplay.gif?raw=true)
 
 ## Status 
 Project in progress.
