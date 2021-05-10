@@ -7,6 +7,7 @@
 * [Setup & Installation](#setup-&-installation)
 * [Running The App](#running-the-app)
 * [Features](#features)
+* [Demo](#demo)
 * [Status](#status)
 * [Contact](#contact)
 
@@ -40,6 +41,9 @@ python main.py
 * Leaderboard
 * 3 available game mode
 * 3 available game speed
+
+## Demo
+![gameplay] (gameplay.gif)
 
 ## Status 
 Project in progress.
