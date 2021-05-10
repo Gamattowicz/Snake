@@ -5,15 +5,13 @@ from leaderboard import get_leaderboard
 from apple import Apple
 from player import Player
 from board import Board
-from snake import Snake
+from snake import Snake, SNAKE_COLOR
 
 # SIZE OF SCREEN =
 WIDTH, HEIGHT = 1100, 750
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption('SNAKE')
-pygame.init()
 APPLE_COLOR = (240, 112, 161)
-SNAKE_COLOR = (22, 255, 189)
 
 
 def main(player):

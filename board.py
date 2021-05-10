@@ -46,18 +46,15 @@ class Board:
                                                                self.start_y + i * self.square_size,
                                                                self.square_size, self.square_size), 0)
 
-    def update_board(self):
-        pass
-
     def draw_grid(self, surface):
         for line in range(self.rows + 1):
             pygame.draw.line(surface, GRID_COLOR, (self.start_x, self.start_y + line * self.square_size),
-                                                       (self.start_x + self.rows * self.square_size,
-                                                        self.start_y + line * self.square_size), 3)
+                                                  (self.start_x + self.rows * self.square_size,
+                                                   self.start_y + line * self.square_size), 3)
         for line in range(self.columns + 1):
             pygame.draw.line(surface, GRID_COLOR, (self.start_x + line * self.square_size, self.start_y),
-                                                       (self.start_x + line * self.square_size,
-                                                        self.start_y + self.columns * self.square_size), 3)
+                                                  (self.start_x + line * self.square_size,
+                                                   self.start_y + self.columns * self.square_size), 3)
 
     def draw_name(self, surface, player, board, main):
         draw = True
