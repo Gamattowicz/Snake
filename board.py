@@ -67,7 +67,7 @@ class Board:
                         player.name = player.name[:-1]
                     elif event.key == pygame.K_RETURN or event.type == pygame.QUIT:
                         draw = False
-            surface.fill((0, 0, 0))
+            surface.fill(BACKGROUND_COLOR)
 
             lost_text = SIDE_FONT.render('YOU LOST!', True, TEXT_COLOR)
             surface.blit(lost_text, (self.screen_width / 2 - lost_text.get_width() / 2, self.screen_height / 10))

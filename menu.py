@@ -3,8 +3,8 @@ import sys
 
 pygame.font.init()
 
-TITLE_FONT = pygame.font.Font('Raleway-ExtraBold.ttf', 50)
-SIDE_FONT = pygame.font.Font('Montserrat-SemiBold.ttf', 30)
+TITLE_FONT = pygame.font.Font('fonts/Raleway-ExtraBold.ttf', 50)
+SIDE_FONT = pygame.font.Font('fonts/Montserrat-SemiBold.ttf', 30)
 BACKGROUND_COLOR = (37, 39, 77)
 TEXT_COLOR = (255, 250, 250)
 ACTIVE_COLOR = (255, 81, 0)
