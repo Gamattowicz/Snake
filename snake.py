@@ -30,7 +30,18 @@ class Snake:
             board.squares[self.body[0][0]][self.body[0][1]] = BLOCK_COLOR
             del self.body[0]
 
-    def move(self, surface, active, player, width, height, main, main_menu, get_leaderboard, pause):
+    def move(
+        self,
+        surface,
+        active,
+        player,
+        width,
+        height,
+        main,
+        main_menu,
+        get_leaderboard,
+        pause,
+    ):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -38,7 +49,16 @@ class Snake:
                 sys.exit()
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
-                    pause(surface, active, width, height, main, main_menu, get_leaderboard, player)
+                    pause(
+                        surface,
+                        active,
+                        width,
+                        height,
+                        main,
+                        main_menu,
+                        get_leaderboard,
+                        player,
+                    )
                 if self.move_x != 1:
                     if event.key == pygame.K_LEFT:
                         self.move_x = -1
@@ -59,4 +79,3 @@ class Snake:
     def collision_check(self, surface, board, player, main):
         if board.squares[self.loc_y][self.loc_x] == self.color:
             board.draw_name(surface, player, board, main)
-

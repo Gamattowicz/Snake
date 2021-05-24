@@ -10,7 +10,7 @@ from snake import Snake, SNAKE_COLOR
 # SIZE OF SCREEN =
 WIDTH, HEIGHT = 1100, 750
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption('SNAKE')
+pygame.display.set_caption("SNAKE")
 APPLE_COLOR = (240, 112, 161)
 
 
@@ -24,7 +24,7 @@ def main(player):
     run = True
     while run:
         WIN.fill(BACKGROUND_COLOR)
-        board.draw_title('SNAKE', WIN)
+        board.draw_title("SNAKE", WIN)
         board.create_squares(WIN)
         board.draw_grid(WIN)
         time += clock.tick(8 + player.speed * 1)
@@ -46,7 +46,17 @@ def main(player):
             snake.loc_y = 0
         elif snake.loc_y < 0:
             snake.loc_y = 19
-        snake.move(WIN, board.active, player, WIDTH, HEIGHT, main, main_menu, get_leaderboard, pause)
+        snake.move(
+            WIN,
+            board.active,
+            player,
+            WIDTH,
+            HEIGHT,
+            main,
+            main_menu,
+            get_leaderboard,
+            pause,
+        )
         board.draw_sides_text(WIN, player, player.format_timer, player.get_max_score)
         pygame.display.update()
 
@@ -57,14 +67,23 @@ def main_menu(surface):
     active = 1
     player = Player()
     run = True
-    speeds = ['LOW', 'MEDIUM', 'HIGH']
-    modes = ['ENDLESS (CONSTANT SPEED)', 'SURVIVAL (INCREASING SPEED AFTER EATING APPLE)',
-             'HARDCORE (INCREASING SPEED OVER TIME)']
+    speeds = ["LOW", "MEDIUM", "HIGH"]
+    modes = [
+        "ENDLESS (CONSTANT SPEED)",
+        "SURVIVAL (INCREASING SPEED AFTER EATING APPLE)",
+        "HARDCORE (INCREASING SPEED OVER TIME)",
+    ]
 
     while run:
         surface.fill(BACKGROUND_COLOR)
-        buttons = ['NEW GAME', f'SPEED: {speeds[(player.speed // 5)]}', f'MODE: {modes[player.mode - 1]}', 'LEADERBOARD', 'EXIT']
-        draw_menu(surface, 'MAIN MENU', buttons, WIDTH, HEIGHT, active)
+        buttons = [
+            "NEW GAME",
+            f"SPEED: {speeds[(player.speed // 5)]}",
+            f"MODE: {modes[player.mode - 1]}",
+            "LEADERBOARD",
+            "EXIT",
+        ]
+        draw_menu(surface, "MAIN MENU", buttons, WIDTH, HEIGHT, active)
         pygame.display.update()
 
         for event in pygame.event.get():
@@ -107,5 +126,5 @@ def main_menu(surface):
     sys.exit()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main_menu(WIN)

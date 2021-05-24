@@ -7,7 +7,7 @@ MAIN_ROW_COLOR = (41, 100, 138)
 
 
 def draw_leaderboard(surface, leaderboard, width, height):
-    menu_text = TITLE_FONT.render('LEADERBOARD', True, TEXT_COLOR)
+    menu_text = TITLE_FONT.render("LEADERBOARD", True, TEXT_COLOR)
     surface.blit(menu_text, (width / 2 - menu_text.get_width() / 2, height / 2 - 350))
 
     width_btn = -400
@@ -36,13 +36,15 @@ def draw_leaderboard(surface, leaderboard, width, height):
 
 
 def get_leaderboard(surface, width, height):
-    rows = [['No.', 'Name', 'Score', 'Speed level', 'Time', 'Date']]
-    with open('scores.csv', 'a+') as f:
+    rows = [["No.", "Name", "Score", "Speed level", "Time", "Date"]]
+    with open("scores.csv", "a+") as f:
         f.seek(0)
-        reader = csv.reader(f, delimiter=',')
+        reader = csv.reader(f, delimiter=",")
         for row in reader:
             rows.append(row)
-    leaderboard = [rows[0]] + sorted(rows[1:], key=lambda x: int(x[1]), reverse=True)[:10]
+    leaderboard = [rows[0]] + sorted(rows[1:], key=lambda x: int(x[1]), reverse=True)[
+        :10
+    ]
     high_scores = True
 
     while high_scores:

@@ -3,21 +3,15 @@ import sys
 
 pygame.font.init()
 
-TITLE_FONT = pygame.font.Font('fonts/Raleway-ExtraBold.ttf', 50)
-SIDE_FONT = pygame.font.Font('fonts/Montserrat-SemiBold.ttf', 30)
+TITLE_FONT = pygame.font.Font("fonts/Raleway-ExtraBold.ttf", 50)
+SIDE_FONT = pygame.font.Font("fonts/Montserrat-SemiBold.ttf", 30)
 BACKGROUND_COLOR = (37, 39, 77)
 TEXT_COLOR = (255, 250, 250)
 ACTIVE_COLOR = (255, 81, 0)
 
 
 def draw_menu_button(surface, text, row, color, width, height):
-    rows_height = {
-        1: 150,
-        2: 100,
-        3: 50,
-        4: 0,
-        5: -50
-    }
+    rows_height = {1: 150, 2: 100, 3: 50, 4: 0, 5: -50}
 
     label = SIDE_FONT.render(text, True, color)
     button_x = width / 2 - label.get_width() / 2
@@ -36,12 +30,12 @@ def draw_menu(surface, menu_title, buttons, width, height, active):
 
 
 def pause(surface, active, width, height, main, main_menu, get_leaderboard, player):
-    buttons = ['RESUME', 'RESTART', 'MAIN MENU', 'LEADERBOARD', 'EXIT']
+    buttons = ["RESUME", "RESTART", "MAIN MENU", "LEADERBOARD", "EXIT"]
     paused = True
 
     while paused:
         surface.fill(BACKGROUND_COLOR)
-        draw_menu(surface, 'PAUSE', buttons, width, height, active)
+        draw_menu(surface, "PAUSE", buttons, width, height, active)
         pygame.display.update()
 
         for event in pygame.event.get():
