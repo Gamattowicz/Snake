@@ -42,11 +42,7 @@ def get_leaderboard(surface, width, height):
         reader = csv.reader(f, delimiter=',')
         for row in reader:
             rows.append(row)
-    try:
-        leaderboard = [rows[0]] + sorted(rows[1:], key=lambda x: int(x[1]), reverse=True)[:10]
-    except:
-        leaderboard = [rows[0]]
-
+    leaderboard = [rows[0]] + sorted(rows[1:], key=lambda x: int(x[1]), reverse=True)[:10]
     high_scores = True
 
     while high_scores:

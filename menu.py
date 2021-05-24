@@ -74,4 +74,3 @@ def pause(surface, active, width, height, main, main_menu, get_leaderboard, play
                     elif active == 5:
                         pygame.quit()
                         sys.exit()
-
