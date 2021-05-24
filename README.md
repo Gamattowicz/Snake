@@ -7,6 +7,7 @@
 * [Setup & Installation](#setup-&-installation)
 * [Running The App](#running-the-app)
 * [Features](#features)
+* [How to play](#how-to-play)
 * [Demo](#demo)
 * [Status](#status)
 * [Contact](#contact)
@@ -42,11 +43,15 @@ python main.py
 * 3 available game mode
 * 3 available game speed
 
+## How to play
+* Control the snake using the arrow keys. 
+* Press Escape key if you want to pause game.
+
 ## Demo
 ![gameplay.gif](gif/gameplay.gif)
 
 ## Status 
-Project in progress.
+Project completed.
 
 ## Contact
 Created by [@Gamattowicz](https://github.com/Gamattowicz) - feel free to contact me!
